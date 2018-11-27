@@ -30,17 +30,17 @@ public class Group {
 
     @Override
     public String toString(){
-        /*ua.kiev.prog.homework4.Student[] sortedStudents = students;
+        /*Student[] sortedStudents = students;
         String formattedStudents = "";
-        Arrays.sort(students, new Comparator<ua.kiev.prog.homework4.Student>() {
+        Arrays.sort(students, new Comparator<Student>() {
             @Override
-            public int compare(ua.kiev.prog.homework4.Student student1, ua.kiev.prog.homework4.Student student2) {
+            public int compare(Student student1, Student student2) {
                 if (student1 != null && student2 != null)
                     return student1.getLastName().compareToIgnoreCase(student2.getLastName());
                 else return 1;
             }
         });
-        for (ua.kiev.prog.homework4.Student student: sortedStudents) {
+        for (Student student: sortedStudents) {
             formattedStudents += student + "\n";
         }
         return formattedStudents;*/

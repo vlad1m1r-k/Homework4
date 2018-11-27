@@ -30,6 +30,6 @@ public class Human {
     }
 
     public String toString(){
-        return "First name: " + firstName + " Last name: " + lastName + " Age: " + age + " ua.kiev.prog.homework4.Sex: " + sex;
+        return "First name: " + firstName + " Last name: " + lastName + " Age: " + age + " Sex: " + sex;
     }
 }
