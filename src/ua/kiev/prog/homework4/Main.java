@@ -18,7 +18,7 @@ public class Main {
             group.add(new Student("Inna", "Torba", 18, Sex.FEMALE, 100));
             group.add(new Student("Petr", "Kent", 19, Sex.MALE, 100));
             group.add(new Student("Tom", "Star", 17, Sex.MALE, 30));
-            group.add(new Student("Yas", "Barto", 18, Sex.MALE, 45));
+            group.add(new Student("Yas", "Barto", 19, Sex.MALE, 45));
         } catch (StudentOperationException soe) {
             System.out.println("Error adding " + soe.getObject().toString());
             System.out.println("Cause " + soe.getMessage());
@@ -28,7 +28,7 @@ public class Main {
         do {
             System.out.println("1 - Add Student, 2 - Sort, 3 - Print, 4 - Delete, 5 - Summon Voenkom, 0 - Exit");
             System.out.print(">");
-            choose = keyboardScanner.next();
+            choose = keyboardScanner.nextLine();
             switch (choose) {
                 case "1":
                     addStudent();
@@ -62,14 +62,11 @@ public class Main {
             return;
         }
         int age = Integer.parseInt(args[2]);
-        if (age < 0) {
-            System.out.println("Age can not be negative.");
-            return;
-        }
-        if (!args[3].equalsIgnoreCase("M") || !args[3].equalsIgnoreCase("F")) {
+        if (!args[3].equalsIgnoreCase("M") && !args[3].equalsIgnoreCase("F")) {
             System.out.println("Sex accepts only M or F symbols. " + args[3]);
             return;
         }
+        Sex sex = args[3].equalsIgnoreCase("M") ? Sex.MALE : Sex.FEMALE;
         if (!args[4].matches("\\d+")) {
             System.out.println("Error parsing AcademicPerformance: " + args[2]);
             return;
@@ -79,10 +76,34 @@ public class Main {
             System.out.println("AcademicPerformance is out of range (0 - 100)");
             return;
         }
+        try {
+            group.add(new Student(args[0], args[1], age, sex, academPerform));
+        } catch (StudentOperationException soe) {
+            System.out.println("Can not add more students.");
+        }
     }
 
     private static void sortStudents() {
-        System.out.println("Sorting...");
+        Scanner keyboardScanner = new Scanner(System.in);
+        System.out.print("Sort by: \n1 - FirstName \n2 - LastName \n3 - Age \n4 - Sex \n5 - AcademicPerformance\n>");
+        String choose = keyboardScanner.nextLine();
+        switch (choose) {
+            case "1":
+                group.sort(Parameters.FIRSTNAME);
+                break;
+            case "2":
+                group.sort(Parameters.LASTNAME);
+                break;
+            case "3":
+                group.sort(Parameters.AGE);
+                break;
+            case "4":
+                group.sort(Parameters.SEX);
+                break;
+            case "5":
+                group.sort(Parameters.PERFORMANCE);
+                break;
+        }
     }
 
     private static void printStudents() {
@@ -100,6 +121,13 @@ public class Main {
     }
 
     private static void summonVoenkom() {
-        System.out.println("Summonning...");
+        AngryVoenkom angryVoenkom = new AngryVoenkom();
+        Student[] students = angryVoenkom.catchStudents(group);
+        String formattedStudents = "";
+        for (Student student : students) {
+            if (student != null) formattedStudents += student + "\n";
+        }
+        System.out.println("Catched students:");
+        System.out.println(formattedStudents);
     }
 }
