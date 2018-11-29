@@ -1,5 +1,6 @@
 package ua.kiev.prog.homework4;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class Main {
         Scanner keyboardScanner = new Scanner(System.in);
         String choose = "";
         do {
-            System.out.println("1 - Add Student, 2 - Sort, 3 - Print, 4 - Delete, 5 - Summon Voenkom, 0 - Exit");
+            System.out.println("1 - Add Student, 2 - Sort, 3 - Print, 4 - Delete, 5 - Summon Voenkom, 6 - Save, 7 - Load, 0 - Exit");
             System.out.print(">");
             choose = keyboardScanner.nextLine();
             switch (choose) {
@@ -45,6 +46,11 @@ public class Main {
                 case "5":
                     summonVoenkom();
                     break;
+                case "6":
+                    saveGroup();
+                    break;
+                case "7":
+                    loadGroup();
             }
         } while (!choose.equals("0"));
     }
@@ -129,5 +135,33 @@ public class Main {
         }
         System.out.println("Catched students:");
         System.out.println(formattedStudents);
+    }
+
+    private static void saveGroup() {
+        File file = new File("group.sav");
+        if (file.exists() && !file.isDirectory()) file.delete();
+        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file))) {
+            output.writeObject(group);
+            System.out.println("Saved to: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Error saving file.");
+            e.printStackTrace();
+        }
+    }
+
+    private static void loadGroup() {
+        File file = new File("group.sav");
+        if (!file.exists()) {
+            System.out.println("Save not found.");
+            return;
+        }
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(file))) {
+            group = (Group) input.readObject();
+        } catch (IOException e) {
+            System.out.println("Error load file.");
+            e.printStackTrace();
+        } catch (ClassNotFoundException cnfe){
+            System.out.println("Can not load object.");
+        }
     }
 }

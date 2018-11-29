@@ -1,9 +1,10 @@
 package ua.kiev.prog.homework4;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class Group {
+public class Group implements Serializable {
     private Student[] students = new Student[10];
 
     public void add(Student student) {

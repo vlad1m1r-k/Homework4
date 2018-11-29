@@ -1,6 +1,8 @@
 package ua.kiev.prog.homework4;
 
-public class Student extends Human {
+import java.io.Serializable;
+
+public class Student extends Human implements Serializable {
     private  int performance;
 
     public Student(String firstName, String lastName, int age, Sex sex, int performance) {
