@@ -145,7 +145,6 @@ public class Main {
             System.out.println("Saved to: " + file.getAbsolutePath());
         } catch (IOException e) {
             System.out.println("Error saving file.");
-            e.printStackTrace();
         }
     }
 
@@ -159,7 +158,6 @@ public class Main {
             group = (Group) input.readObject();
         } catch (IOException e) {
             System.out.println("Error load file.");
-            e.printStackTrace();
         } catch (ClassNotFoundException cnfe){
             System.out.println("Can not load object.");
         }
