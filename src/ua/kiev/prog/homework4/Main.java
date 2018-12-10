@@ -1,7 +1,6 @@
 package ua.kiev.prog.homework4;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -10,20 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         group = new Group();
-        try {
-            group.add(new Student("Ivan", "Karko", 18, Sex.MALE, 90));
-            group.add(new Student("Lena", "Baskova", 19, Sex.FEMALE, 60));
-            group.add(new Student("Petr", "Azirov", 18, Sex.MALE, 70));
-            group.add(new Student("Uy", "Chang", 18, Sex.FEMALE, 55));
-            group.add(new Student("Petr", "Ali", 18, Sex.MALE, 79));
-            group.add(new Student("Inna", "Torba", 18, Sex.FEMALE, 100));
-            group.add(new Student("Petr", "Kent", 19, Sex.MALE, 100));
-            group.add(new Student("Tom", "Star", 17, Sex.MALE, 30));
-            group.add(new Student("Yas", "Barto", 19, Sex.MALE, 45));
-        } catch (StudentOperationException soe) {
-            System.out.println("Error adding " + soe.getObject().toString());
-            System.out.println("Cause " + soe.getMessage());
-        }
+        fillGroup();
         Scanner keyboardScanner = new Scanner(System.in);
         String choose = "";
         do {
@@ -138,7 +124,10 @@ public class Main {
     }
 
     private static void saveGroup() {
-        File file = new File("group.sav");
+        Scanner keyboardScanner = new Scanner(System.in);
+        System.out.print("Group name: ");
+        String name = keyboardScanner.nextLine();
+        File file = new File(name + ".sav");
         if (file.exists() && !file.isDirectory()) file.delete();
         try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file))) {
             output.writeObject(group);
@@ -149,7 +138,21 @@ public class Main {
     }
 
     private static void loadGroup() {
-        File file = new File("group.sav");
+        File dir = new File(".");
+        File[] groups = dir.listFiles(path -> {
+            if (!path.isDirectory() && !(path.getName().lastIndexOf(".") == -1) && path.getName().substring(path.getName().lastIndexOf(".")).equalsIgnoreCase(".sav"))
+                return true;
+            return false;
+        });
+        System.out.print("Saved groups: ");
+        for (File file : groups) {
+            System.out.print(file.getName().substring(0, file.getName().lastIndexOf(".")) + " ");
+        }
+        System.out.println();
+        System.out.print("Enter group name to load: ");
+        Scanner keyboardScanner = new Scanner(System.in);
+        String name = keyboardScanner.nextLine();
+        File file = new File(name + ".sav");
         if (!file.exists()) {
             System.out.println("Save not found.");
             return;
@@ -158,8 +161,25 @@ public class Main {
             group = (Group) input.readObject();
         } catch (IOException e) {
             System.out.println("Error load file.");
-        } catch (ClassNotFoundException cnfe){
+        } catch (ClassNotFoundException cnfe) {
             System.out.println("Can not load object.");
+        }
+    }
+
+    private static void fillGroup() {
+        try {
+            group.add(new Student("Ivan", "Karko", 18, Sex.MALE, 90));
+            group.add(new Student("Lena", "Baskova", 19, Sex.FEMALE, 60));
+            group.add(new Student("Petr", "Azirov", 18, Sex.MALE, 70));
+            group.add(new Student("Uy", "Chang", 18, Sex.FEMALE, 55));
+            group.add(new Student("Petr", "Ali", 18, Sex.MALE, 79));
+            group.add(new Student("Inna", "Torba", 18, Sex.FEMALE, 100));
+            group.add(new Student("Petr", "Kent", 19, Sex.MALE, 100));
+            group.add(new Student("Tom", "Star", 17, Sex.MALE, 30));
+            group.add(new Student("Yas", "Barto", 19, Sex.MALE, 45));
+        } catch (StudentOperationException soe) {
+            System.out.println("Error adding " + soe.getObject().toString());
+            System.out.println("Cause " + soe.getMessage());
         }
     }
 }
