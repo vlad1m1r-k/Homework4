@@ -1,16 +1,15 @@
 package ua.kiev.prog.homework4;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AngryVoenkom implements Voenkom {
     @Override
-    public Student[] catchStudents(Group group) {
-        Student[] catchedStudents = new Student[10];
-        int index = 0;
+    public List<Student> catchStudents(Group group) {
+        List<Student> catchedStudents = new ArrayList<>();
         for (Student student : group.getStudents()) {
-            if (student != null && student.getSex() == Sex.MALE && student.getAge() > 18) {
-                catchedStudents[index] = student;
-                index++;
+            if (student.getSex() == Sex.MALE && student.getAge() > 18) {
+                catchedStudents.add(student);
             }
         }
         return catchedStudents;

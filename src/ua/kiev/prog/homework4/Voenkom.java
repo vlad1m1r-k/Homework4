@@ -1,5 +1,7 @@
 package ua.kiev.prog.homework4;
 
+import java.util.List;
+
 public interface Voenkom {
-    Student[] catchStudents(Group group);
+    List<Student> catchStudents(Group group);
 }

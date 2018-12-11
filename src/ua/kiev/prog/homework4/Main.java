@@ -2,6 +2,7 @@ package ua.kiev.prog.homework4;
 
 import java.io.*;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -114,10 +115,10 @@ public class Main {
 
     private static void summonVoenkom() {
         AngryVoenkom angryVoenkom = new AngryVoenkom();
-        Student[] students = angryVoenkom.catchStudents(group);
+        List<Student> students = angryVoenkom.catchStudents(group);
         String formattedStudents = "";
         for (Student student : students) {
-            if (student != null) formattedStudents += student + "\n";
+            formattedStudents += student + "\n";
         }
         System.out.println("Catched students:");
         System.out.println(formattedStudents);
