@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
     private static Group group;
@@ -14,7 +15,7 @@ public class Main {
         Scanner keyboardScanner = new Scanner(System.in);
         String choose = "";
         do {
-            System.out.println("1 - Add Student, 2 - Sort, 3 - Print, 4 - Delete, 5 - Summon Voenkom, 6 - Save, 7 - Load, 0 - Exit");
+            System.out.println("1 - Add Student, 2 - Sort, 3 - Print, 4 - Delete, 5 - Summon Voenkom, 6 - Save, 7 - Load, 8 - Filter, 0 - Exit");
             System.out.print(">");
             choose = keyboardScanner.nextLine();
             switch (choose) {
@@ -38,8 +39,27 @@ public class Main {
                     break;
                 case "7":
                     loadGroup();
+                    break;
+                case "8":
+                    filterGroup();
             }
         } while (!choose.equals("0"));
+    }
+
+    private static void filterGroup() {
+        Scanner keyboardScanner = new Scanner(System.in);
+        System.out.print("Enter first letter of student LastName: ");
+        String letter = keyboardScanner.nextLine();
+        if (letter.length() != 0){
+            List<Student> filteredList = group.getStudents().stream()
+                    .filter(s -> s.getLastName().toLowerCase().charAt(0) == letter.toLowerCase().charAt(0))
+                    .collect(Collectors.toList());
+            String formattedStudents = "";
+            for (Student student : filteredList) {
+                formattedStudents += student + "\n";
+            }
+            System.out.println(formattedStudents);
+        }
     }
 
     private static void addStudent() {
